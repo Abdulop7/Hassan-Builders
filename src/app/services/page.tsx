@@ -1,12 +1,12 @@
 'use client'
 
 import { Check, Home, DraftingCompass, Building, PaintBucket, Eye, ChevronRight } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
 // Animation variants
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { y: 40, opacity: 0 },
   visible: {
     y: 0,
@@ -18,7 +18,7 @@ const fadeInUp = {
   }
 }
 
-const fadeInScale = {
+const fadeInScale: Variants = {
   hidden: { scale: 0.95, opacity: 0 },
   visible: {
     scale: 1,
@@ -30,7 +30,7 @@ const fadeInScale = {
   }
 }
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -41,7 +41,7 @@ const staggerContainer = {
   }
 }
 
-const staggerItem = {
+const staggerItem: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -122,7 +122,15 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section ref={heroRef} className="relative py-24">
-        <div className="absolute inset-0 bg-black"></div>
+        {/* Background */}
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/service-hero.webp')" }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+        />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="relative container mx-auto px-4 lg:px-8">
           <motion.div
             className="max-w-4xl mx-auto text-center"

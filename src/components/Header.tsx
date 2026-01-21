@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 
@@ -41,7 +41,7 @@ export default function Header() {
   }, [isMenuOpen])
 
   // Header animation
-  const headerVariants = {
+  const headerVariants: Variants = {
     hidden: { y: -80 },
     visible: {
       y: 0,
@@ -50,7 +50,7 @@ export default function Header() {
   }
 
   // Desktop panel (right) animation
-  const desktopPanelVariants = {
+  const desktopPanelVariants: Variants = {
     hidden: { x: '100%', opacity: 0 },
     visible: {
       x: 0,
@@ -65,7 +65,7 @@ export default function Header() {
   }
 
   // Mobile panel (top) animation
-  const mobilePanelVariants = {
+  const mobilePanelVariants: Variants = {
     hidden: { y: '-100%', opacity: 0 },
     visible: {
       y: 0,
@@ -79,7 +79,7 @@ export default function Header() {
     },
   }
 
-  const navItemVariants = {
+  const navItemVariants: Variants = {
     hidden: { x: 20, opacity: 0 },
     visible: (i: number) => ({
       x: 0,
@@ -92,7 +92,7 @@ export default function Header() {
     },
   }
 
-  const mobileNavItemVariants = {
+  const mobileNavItemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: (i: number) => ({
       y: 0,
@@ -101,28 +101,28 @@ export default function Header() {
     }),
   }
 
-  const overlayVariants = {
+  const overlayVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
     exit: { opacity: 0 },
   }
 
-  const hamburgerVariants = {
+  const hamburgerVariants: Variants = {
     open: { rotate: 90, transition: { duration: 0.25 } },
     closed: { rotate: 0, transition: { duration: 0.25 } },
   }
 
-  const line1Variants = {
+  const line1Variants: Variants = {
     open: { rotate: 45, y: 7 },
     closed: { rotate: 0, y: 0 },
   }
 
-  const line2Variants = {
+  const line2Variants: Variants = {
     open: { opacity: 0 },
     closed: { opacity: 1 },
   }
 
-  const line3Variants = {
+  const line3Variants: Variants = {
     open: { rotate: -45, y: -7 },
     closed: { rotate: 0, y: 0 },
   }
@@ -258,7 +258,7 @@ export default function Header() {
 
             {/* Mobile overlay + full-screen top panel */}
             <motion.div
-              className="lg:hidden fixed inset-0 mt-4 z-40 bg-black/80 backdrop-blur-sm"
+              className="lg:hidden fixed inset-0 mt-12 z-40 bg-black/80 backdrop-blur-sm"
               variants={overlayVariants}
               initial="hidden"
               animate="visible"
@@ -272,33 +272,8 @@ export default function Header() {
                 exit="exit"
               >
                 {/* Top bar with close in same place as hamburger */}
-                <div className="flex items-center justify-between px-4 py-4 border-b border-gray-800">
-                  {/* Left: logo small */}
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 rounded-full overflow-hidden border border-[#D4AF37] flex items-center justify-center">
-                      <Image
-                        src="/logo.webp"
-                        alt="Hassan Builders Logo"
-                        width={32}
-                        height={32}
-                        className="object-cover"
-                      />
-                    </div>
-                    <span className="text-white text-sm font-semibold tracking-tight">
-                      HASSAN <span className="text-[#D4AF37]">BUILDERS</span>
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between px-4 py-20 ">
 
-                  {/* Right: close icon */}
-                  <motion.button
-                    onClick={() => setIsMenuOpen(false)}
-                    className="text-gray-300 p-2"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    aria-label="Close menu"
-                  >
-                    <X className="w-6 h-6" />
-                  </motion.button>
                 </div>
 
                 {/* Centered large nav links */}

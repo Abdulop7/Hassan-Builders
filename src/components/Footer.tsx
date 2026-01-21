@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, Variants } from 'framer-motion'
 import { useRef } from 'react'
 import { Facebook, Instagram, Linkedin, Phone, Mail, MapPin, ChevronRight, Building2, Wrench, DraftingCompass, PaintBucket } from 'lucide-react'
 import Image from 'next/image'
@@ -12,7 +12,7 @@ export default function Footer() {
   const isInView = useInView(footerRef, { once: true, margin: "-100px" })
 
   // Animation variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -23,7 +23,7 @@ export default function Footer() {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -36,7 +36,7 @@ export default function Footer() {
     }
   }
 
-  const socialIconVariants = {
+  const socialIconVariants: Variants = {
     hidden: { scale: 0, rotate: -180 },
     visible: (i: number) => ({
       scale: 1,
@@ -59,7 +59,7 @@ export default function Footer() {
     }
   }
 
-  const contactItemVariants = {
+  const contactItemVariants: Variants = {
     hidden: { x: -20, opacity: 0 },
     visible: (i: number) => ({
       x: 0,
@@ -77,7 +77,7 @@ export default function Footer() {
     }
   }
 
-  const linkVariants = {
+  const linkVariants: Variants = {
     hover: {
       x: 5,
       color: "#D4AF37",

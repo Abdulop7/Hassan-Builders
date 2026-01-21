@@ -3,13 +3,13 @@
 import { useState } from 'react'
 import { ArrowRight, CheckCircle, Building2, House, Wrench, PaintBucket } from 'lucide-react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 
 // Animation variants
-const containerVariants = {
+const containerVariants : Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -20,7 +20,7 @@ const containerVariants = {
   }
 }
 
-const itemVariants = {
+const itemVariants : Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -33,7 +33,7 @@ const itemVariants = {
   }
 }
 
-const fadeInUp = {
+const fadeInUp : Variants = {
   hidden: { y: 40, opacity: 0 },
   visible: {
     y: 0,
@@ -45,7 +45,7 @@ const fadeInUp = {
   }
 }
 
-const fadeInRight = {
+const fadeInRight : Variants = {
   hidden: { x: -40, opacity: 0 },
   visible: {
     x: 0,
@@ -57,7 +57,7 @@ const fadeInRight = {
   }
 }
 
-const fadeInLeft = {
+const fadeInLeft : Variants = {
   hidden: { x: 40, opacity: 0 },
   visible: {
     x: 0,
@@ -69,7 +69,7 @@ const fadeInLeft = {
   }
 }
 
-const scaleUp = {
+const scaleUp : Variants = {
   hidden: { scale: 0.8, opacity: 0 },
   visible: {
     scale: 1,
@@ -81,7 +81,7 @@ const scaleUp = {
   }
 }
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -118,7 +118,7 @@ export default function Home() {
   const ctaInView = useInView(ctaRef, { once: true, margin: "-100px" })
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-white">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Background */}
