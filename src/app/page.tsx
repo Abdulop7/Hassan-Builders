@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowRight, CheckCircle, Building2, House, Wrench, PaintBucket } from 'lucide-react'
+import { ArrowRight, CheckCircle, House, Wrench, PaintBucket } from 'lucide-react'
 import Link from 'next/link'
 import { motion, Variants } from 'framer-motion'
 import { useInView } from 'framer-motion'
@@ -146,7 +145,7 @@ export default function Home() {
             >
               <div className="h-px w-16 bg-[#D4AF37] mr-4"></div>
               <span className="text-[#D4AF37] text-sm font-medium tracking-widest uppercase">
-                RESIDENTIAL CONSTRUCTION
+                CONSTRUCTION
               </span>
             </motion.div>
 
@@ -158,7 +157,7 @@ export default function Home() {
             >
               Building Quality
               <br />
-              <span className="text-[#D4AF37]">Residential Spaces</span>
+              <span className="text-[#D4AF37]">Spaces</span>
             </motion.h1>
 
             <motion.p
@@ -224,7 +223,7 @@ export default function Home() {
               >
                 Building Excellence in
                 <br />
-                <span className="text-[#D4AF37]">Residential Construction</span>
+                <span className="text-[#D4AF37]">Construction</span>
               </motion.h2>
 
               <motion.div
@@ -234,7 +233,7 @@ export default function Home() {
                 animate={aboutInView ? "visible" : "hidden"}
               >
                 <motion.p className="leading-relaxed" variants={itemVariants}>
-                  Hassan Builders is a premier residential construction company based in Pakistan,
+                  Hassan Builders is a premier residential construction company based in Multan,
                   specializing in creating exceptional living spaces that blend modern design with
                   traditional craftsmanship.
                 </motion.p>
@@ -336,7 +335,7 @@ export default function Home() {
               className="text-gray-600 text-lg leading-relaxed"
               variants={fadeInUp}
             >
-              End-to-end residential construction solutions ensuring quality and precision at every stage.
+              End-to-end construction solutions ensuring quality and precision at every stage.
             </motion.p>
           </motion.div>
 
@@ -502,7 +501,7 @@ export default function Home() {
                 className="text-gray-400"
                 variants={fadeInUp}
               >
-                A showcase of our residential construction excellence across Pakistan
+                A showcase of our construction excellence across Pakistan
               </motion.p>
             </div>
 
@@ -597,7 +596,7 @@ export default function Home() {
               variants={fadeInUp}
             >
               Contact us for a comprehensive consultation. Let's discuss how we can transform
-              your residential vision into reality with our expertise and commitment to quality.
+              your vision into reality with our expertise and commitment to quality.
             </motion.p>
 
             <motion.div

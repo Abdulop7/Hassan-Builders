@@ -4,6 +4,7 @@ import { Check, Home, DraftingCompass, Building, PaintBucket, Eye, ChevronRight 
 import { motion, Variants } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import Link from 'next/link'
 
 // Animation variants
 const fadeInUp: Variants = {
@@ -420,6 +421,7 @@ export default function ServicesPage() {
               initial="hidden"
               animate={ctaInView ? "visible" : "hidden"}
             >
+              <Link href="/contact">
               <motion.button
                 className="bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:bg-[#C19C30] transition-colors duration-200 flex items-center justify-center"
                 variants={staggerItem}
@@ -432,6 +434,8 @@ export default function ServicesPage() {
                 Get Free Consultation
                 <ChevronRight className="ml-3" size={20} />
               </motion.button>
+              </Link>
+              <Link href="/projects">
               <motion.button
                 className="bg-transparent border-2 border-white text-white px-8 py-4 font-semibold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-200"
                 variants={staggerItem}
@@ -443,6 +447,7 @@ export default function ServicesPage() {
               >
                 View Our Portfolio
               </motion.button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

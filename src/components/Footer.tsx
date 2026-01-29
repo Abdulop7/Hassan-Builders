@@ -97,15 +97,15 @@ export default function Footer() {
   ]
 
   const socialLinks = [
-    { icon: <Facebook className="w-5 h-5" />, href: "#", label: "Facebook" },
-    { icon: <Instagram className="w-5 h-5" />, href: "#", label: "Instagram" },
-    { icon: <Linkedin className="w-5 h-5" />, href: "#", label: "LinkedIn" }
+    { icon: <Facebook className="w-5 h-5" />, href: "https://www.facebook.com/profile.php?id=100085025091850", label: "Facebook" },
+    { icon: <Instagram className="w-5 h-5" />, href: "/", label: "Instagram" },
+    { icon: <Linkedin className="w-5 h-5" />, href: "/", label: "LinkedIn" }
   ]
 
   const contactInfo = [
-    { icon: <MapPin className="w-5 h-5" />, text: "Lahore, Pakistan" },
-    { icon: <Phone className="w-5 h-5" />, text: "+92 300 0000000" },
-    { icon: <Mail className="w-5 h-5" />, text: "info@hassanbuilders.pk" }
+    { icon: <MapPin className="w-5 h-5" />, text: "Near Green View Housing Scheme, Multan Public School Road, Multan, 60000, Pakistan" },
+    { icon: <Phone className="w-5 h-5" />, text: "+92 334 6000900" },
+    { icon: <Mail className="w-5 h-5" />, text: "ranahassan6000@icloud.com" }
   ]
 
   const quickLinks = [
@@ -159,7 +159,7 @@ export default function Footer() {
               className="text-gray-400 leading-relaxed"
               variants={itemVariants}
             >
-              Building quality residential spaces across Pakistan with precision,
+              Building quality spaces in Multan with precision,
               responsibility, and long-term value. Transforming visions into
               exceptional living environments.
             </motion.p>
@@ -315,10 +315,10 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} HASSAN BUILDERS. ALL RIGHTS RESERVED.
             </p>
             <div className="flex items-center space-x-6 text-gray-500 text-sm">
-              <Link href="/privacy" className="hover:text-[#D4AF37] transition-colors tracking-wide">
+              <Link href="/" className="hover:text-[#D4AF37] transition-colors tracking-wide">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="hover:text-[#D4AF37] transition-colors tracking-wide">
+              <Link href="/" className="hover:text-[#D4AF37] transition-colors tracking-wide">
                 Terms of Service
               </Link>
             </div>

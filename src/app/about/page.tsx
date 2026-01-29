@@ -4,6 +4,7 @@ import { Target, Eye, Heart, Shield, Award, Users, ChevronRight, Building2 } fro
 import { motion, Variants } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import Link from 'next/link'
 
 // Animation variants
 const containerVariants: Variants = {
@@ -154,7 +155,7 @@ export default function AboutPage() {
               animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              Building dreams with precision, quality, and trust for over a decade.
+              Building dreams with precision, quality, and trust since 2018.
               Transforming residential construction in Pakistan.
             </motion.p>
           </motion.div>
@@ -183,7 +184,7 @@ export default function AboutPage() {
             >
               Building Excellence Since
               <br />
-              <span className="text-[#D4AF37]">2010</span>
+              <span className="text-[#D4AF37]">2018</span>
             </motion.h2>
 
             <motion.div
@@ -193,7 +194,7 @@ export default function AboutPage() {
               animate={storyInView ? "visible" : "hidden"}
             >
               <motion.p className="leading-relaxed text-lg" variants={itemVariants}>
-                Founded in 2010, Hassan Builders emerged from a vision to transform
+                Founded in 2018, Hassan Builders emerged from a vision to transform
                 residential construction in Pakistan by combining traditional craftsmanship with
                 modern engineering excellence. What began as a family enterprise has grown
                 into a trusted name known for reliability and uncompromising quality.
@@ -231,11 +232,11 @@ export default function AboutPage() {
             >
               <div className="flex items-center space-x-8 overflow-x-auto pb-4">
                 {[
-                  { year: '2010', event: 'Company Founded' },
-                  { year: '2014', event: 'Expanded Operations' },
-                  { year: '2018', event: 'Premium Projects Division' },
-                  { year: '2021', event: 'Sustainability Initiative' },
-                  { year: '2023', event: 'National Recognition' }
+                  { year: '2018', event: 'Company Founded' },
+                  { year: '2019', event: 'First Major Residential Project' },
+                  { year: '2021', event: 'Expanded Services & Team' },
+                  { year: '2023', event: 'Premium Projects Division' },
+                  { year: '2024', event: 'Sustainability Initiative' }
                 ].map((item, index) => (
                   <motion.div
                     key={index}
@@ -426,7 +427,7 @@ export default function AboutPage() {
           >
             {[
               { number: '50+', label: 'Projects Completed', icon: Building2 },
-              { number: '10+', label: 'Years Experience', icon: Award },
+              { number: '6+', label: 'Years Experience', icon: Award },
               { number: '40+', label: 'Happy Clients', icon: Users },
               { number: '100%', label: 'Client Satisfaction', icon: Heart }
             ].map((stat, index) => (
@@ -456,7 +457,7 @@ export default function AboutPage() {
             transition={{ delay: 1 }}
           >
             <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
-              Since 2010, we have built a reputation for excellence in residential construction across Pakistan.
+              Since 2018, we have built a reputation for excellence in residential construction across Pakistan.
               Our commitment to quality and client satisfaction remains our guiding principle.
             </p>
 
@@ -505,17 +506,20 @@ export default function AboutPage() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <motion.button
-                className="bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:bg-[#C19C30] transition-colors duration-200"
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(212, 175, 55, 0.3)"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Start Your Project
-              </motion.button>
+              <Link href="/contact">
+                <motion.button
+                  className="bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:bg-[#C19C30] transition-colors duration-200"
+                  variants={itemVariants}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 20px 40px rgba(212, 175, 55, 0.3)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Start Your Project
+                </motion.button>
+              </Link>
+              <Link href="/services">
               <motion.button
                 className="bg-transparent border-2 border-white text-white px-8 py-4 font-semibold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-200"
                 variants={itemVariants}
@@ -527,6 +531,7 @@ export default function AboutPage() {
               >
                 View Our Services
               </motion.button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
