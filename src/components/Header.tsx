@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
-import { X } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Header() {
@@ -14,25 +13,22 @@ export default function Header() {
 
   const navItems = [
     { name: 'HOME', href: '/' },
-    { name: 'ABOUT US', href: '/about' },
+    { name: 'ABOUT', href: '/about' },
     { name: 'SERVICES', href: '/services' },
     { name: 'PROJECTS', href: '/projects' },
     { name: 'CONTACT', href: '/contact' },
   ]
 
-  // Scroll shadow
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close menu on route change
   useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
 
-  // Lock body scroll when menu open
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset'
     return () => {
@@ -40,284 +36,122 @@ export default function Header() {
     }
   }, [isMenuOpen])
 
-  // Header animation
   const headerVariants: Variants = {
-    hidden: { y: -80 },
+    hidden: { y: -100, opacity: 0 },
     visible: {
       y: 0,
+      opacity: 1,
       transition: { type: 'spring', stiffness: 100, damping: 20 },
     },
   }
 
-  // Desktop panel (right) animation
-  const desktopPanelVariants: Variants = {
-    hidden: { x: '100%', opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: { type: 'spring', stiffness: 120, damping: 18 },
+  const menuVariants: Variants = {
+    hidden: { clipPath: 'circle(0% at 100% 0)' },
+    visible: { 
+      clipPath: 'circle(150% at 100% 0)',
+      transition: { type: 'spring', stiffness: 50, damping: 20 }
     },
-    exit: {
-      x: '100%',
-      opacity: 0,
-      transition: { duration: 0.25, ease: 'easeInOut' },
-    },
+    exit: { 
+      clipPath: 'circle(0% at 100% 0)',
+      transition: { type: 'spring', stiffness: 50, damping: 20 }
+    }
   }
 
-  // Mobile panel (top) animation
-  const mobilePanelVariants: Variants = {
-    hidden: { y: '-100%', opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: 'spring', stiffness: 120, damping: 18 },
-    },
-    exit: {
-      y: '-100%',
-      opacity: 0,
-      transition: { duration: 0.25, ease: 'easeInOut' },
-    },
-  }
-
-  const navItemVariants: Variants = {
-    hidden: { x: 20, opacity: 0 },
-    visible: (i: number) => ({
-      x: 0,
-      opacity: 1,
-      transition: { delay: i * 0.06, type: 'spring', stiffness: 120, damping: 16 },
-    }),
-    hover: {
-      x: 8,
-      transition: { type: 'spring', stiffness: 400, damping: 15 },
-    },
-  }
-
-  const mobileNavItemVariants: Variants = {
-    hidden: { y: 20, opacity: 0 },
+  const linkVariants: Variants = {
+    hidden: { y: 50, opacity: 0 },
     visible: (i: number) => ({
       y: 0,
       opacity: 1,
-      transition: { delay: i * 0.06, type: 'spring', stiffness: 120, damping: 16 },
-    }),
-  }
-
-  const overlayVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-    exit: { opacity: 0 },
-  }
-
-  const hamburgerVariants: Variants = {
-    open: { rotate: 90, transition: { duration: 0.25 } },
-    closed: { rotate: 0, transition: { duration: 0.25 } },
-  }
-
-  const line1Variants: Variants = {
-    open: { rotate: 45, y: 7 },
-    closed: { rotate: 0, y: 0 },
-  }
-
-  const line2Variants: Variants = {
-    open: { opacity: 0 },
-    closed: { opacity: 1 },
-  }
-
-  const line3Variants: Variants = {
-    open: { rotate: -45, y: -7 },
-    closed: { rotate: 0, y: 0 },
+      transition: { delay: 0.1 + (i * 0.1), type: 'spring', stiffness: 100, damping: 20 }
+    })
   }
 
   return (
     <>
-      {/* Main Header */}
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 transition-all duration-300 ${
-          isScrolled ? 'shadow-lg py-3' : 'py-4'
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
+          isScrolled ? 'bg-[#09090B]/90 backdrop-blur-md  border-white/10' : 'bg-transparent'
         }`}
         variants={headerVariants}
         initial="hidden"
         animate="visible"
       >
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Logo - Left */}
-            <motion.div
-              className="flex items-center"
-              whileHover={{ scale: 1.03 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              <Link href="/" className="flex items-center space-x-3">
-                <div className="w-10 h-10  overflow-hidden flex items-center justify-center">
-                  <Image
-                    src="/logo.webp"
-                    alt="Hassan Builders Logo"
-                    width={40}
-                    height={40}
-                    className="object-cover"
-                  />
-                </div>
-                <div className="hidden lg:block">
-                  <h1 className="text-lg font-semibold text-gray-900 tracking-tight">
-                    HASSAN <span className="text-[#D4AF37]">BUILDERS</span>
-                  </h1>
-                  <p className="text-gray-500 text-xs tracking-[0.15em]">
-                    YOUR DREAMS, OUR PRIORITIES
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
+        <div className="container mx-auto px-6 py-6 lg:px-12 flex items-center justify-between">
+          <Link href="/" className="relative z-50 flex items-center gap-3 group">
+            <div className="w-10 h-10 relative overflow-hidden rounded-full">
+              <Image src="/logo.webp" alt="Hassan Builders" fill className="object-cover" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold tracking-widest text-lg leading-none group-hover:text-[#D4AF37] transition-colors">
+                HASSAN
+              </span>
+              <span className="text-[#D4AF37] text-xs font-mono tracking-widest uppercase">
+                Builders
+              </span>
+            </div>
+          </Link>
 
-            {/* Hamburger - Right (desktop & mobile) */}
-            <motion.button
-              className="text-gray-900 p-3"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              variants={hamburgerVariants}
-              animate={isMenuOpen ? 'open' : 'closed'}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              aria-label="Toggle navigation menu"
-            >
-              {/* Bigger hamburger icon */}
-              <div className="w-8 h-8 relative">
-                <motion.span
-                  className="absolute top-2 left-0 w-8 h-0.5 bg-black"
-                  variants={line1Variants}
-                  animate={isMenuOpen ? 'open' : 'closed'}
-                  transition={{ duration: 0.25 }}
-                />
-                <motion.span
-                  className="absolute top-4 left-0 w-8 h-0.5 bg-black"
-                  variants={line2Variants}
-                  animate={isMenuOpen ? 'open' : 'closed'}
-                  transition={{ duration: 0.25 }}
-                />
-                <motion.span
-                  className="absolute top-6 left-0 w-8 h-0.5 bg-black"
-                  variants={line3Variants}
-                  animate={isMenuOpen ? 'open' : 'closed'}
-                  transition={{ duration: 0.25 }}
-                />
-              </div>
-            </motion.button>
-          </div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="relative z-50 flex items-center gap-4 text-sm font-mono tracking-widest hover:text-[#D4AF37] transition-colors"
+          >
+            <span className="hidden sm:block">{isMenuOpen ? 'CLOSE' : 'MENU'}</span>
+            <div className="w-8 h-8 flex flex-col justify-center items-center gap-1.5">
+              <motion.span 
+                animate={isMenuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }} 
+                className="w-full h-0.5 bg-current origin-center" 
+              />
+              <motion.span 
+                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }} 
+                className="w-full h-0.5 bg-current origin-center" 
+              />
+              <motion.span 
+                animate={isMenuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }} 
+                className="w-full h-0.5 bg-current origin-center" 
+              />
+            </div>
+          </button>
         </div>
       </motion.header>
 
       <AnimatePresence>
         {isMenuOpen && (
-          <>
-            {/* Desktop overlay + right panel */}
-            <motion.div
-              className="hidden lg:block fixed inset-0 z-30 bg-black/60 backdrop-blur-sm"
-              variants={overlayVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              onClick={() => setIsMenuOpen(false)}
-            />
-            <motion.aside
-              className="hidden lg:flex fixed top-0 right-0 h-screen w-80 bg-black border-l border-gray-800 z-40 flex-col"
-              variants={desktopPanelVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              {/* Large font nav links */}
-              <nav className="flex-1 flex flex-col justify-center px-6 space-y-4">
-                {navItems.map((item, i) => {
-                  const isActive =
-                    pathname === item.href ||
-                    (item.href !== '/' && pathname?.startsWith(item.href))
-
-                  return (
-                    <motion.div
-                      key={item.name}
-                      custom={i}
-                      variants={navItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      whileHover="hover"
+          <motion.div
+            variants={menuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed inset-0 z-40 bg-[#09090B] flex flex-col items-center justify-center"
+          >
+            <nav className="flex flex-col items-center gap-8">
+              {navItems.map((item, i) => (
+                <div key={item.name} className="overflow-hidden">
+                  <motion.div custom={i} variants={linkVariants} initial="hidden" animate="visible" exit="hidden">
+                    <Link
+                      href={item.href}
+                      className="text-5xl md:text-7xl font-bold tracking-tighter hover:text-[#D4AF37] hover:italic transition-all duration-300 relative inline-block group"
+                      onClick={() => setIsMenuOpen(false)}
                     >
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        aria-current={isActive ? 'page' : undefined}
-                        className={`block text-2xl font-medium tracking-wide py-2 ${
-                          isActive
-                            ? 'text-[#D4AF37]'
-                            : 'text-gray-200 hover:text-white'
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
-              </nav>
-            </motion.aside>
-
-            {/* Mobile overlay + full-screen top panel */}
-            <motion.div
-              className="lg:hidden fixed inset-0 mt-12 z-40 bg-black/80 backdrop-blur-sm"
-              variants={overlayVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
+                      {item.name}
+                      <span className="absolute -bottom-2 left-0 w-0 h-1 bg-[#D4AF37] group-hover:w-full transition-all duration-500"></span>
+                    </Link>
+                  </motion.div>
+                </div>
+              ))}
+            </nav>
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 0.8 }}
+              className="absolute bottom-12 flex gap-8 font-mono text-sm tracking-widest text-gray-500"
             >
-              <motion.div
-                className="absolute inset-0 bg-black"
-                variants={mobilePanelVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                {/* Top bar with close in same place as hamburger */}
-                <div className="flex items-center justify-between px-4 py-20 ">
-
-                </div>
-
-                {/* Centered large nav links */}
-                <div className="flex-1 flex flex-col items-center justify-center px-6">
-                  <nav className="w-full space-y-4">
-                    {navItems.map((item, i) => {
-                      const isActive =
-                        pathname === item.href ||
-                        (item.href !== '/' && pathname?.startsWith(item.href))
-
-                      return (
-                        <motion.div
-                          key={item.name}
-                          custom={i}
-                          variants={mobileNavItemVariants}
-                          initial="hidden"
-                          animate="visible"
-                          exit="hidden"
-                        >
-                          <Link
-                            href={item.href}
-                            onClick={() => setIsMenuOpen(false)}
-                            aria-current={isActive ? 'page' : undefined}
-                            className={`block text-center text-2xl font-medium tracking-wide py-2 ${
-                              isActive
-                                ? 'text-[#D4AF37]'
-                                : 'text-gray-200 hover:text-white'
-                            }`}
-                          >
-                            {item.name}
-                          </Link>
-                        </motion.div>
-                      )
-                    })}
-                  </nav>
-                </div>
-              </motion.div>
+              <a href="https://www.facebook.com/profile.php?id=100085025091850" className="hover:text-[#D4AF37]">FACEBOOK</a>
+              <a href="#" className="hover:text-[#D4AF37]">INSTAGRAM</a>
+              <a href="#" className="hover:text-[#D4AF37]">LINKEDIN</a>
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Spacer for fixed header */}
-      <div className="h-20" />
     </>
   )
 }

@@ -1,666 +1,346 @@
 'use client'
 
-import { ArrowRight, CheckCircle, House, Wrench, PaintBucket } from 'lucide-react'
-import Link from 'next/link'
-import { motion, Variants } from 'framer-motion'
-import { useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 
-// Animation variants
-const containerVariants : Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-}
+const projectsData = [
+  { id: 1, type: 'House', title: '4 KANAL RESIDENTIAL', location: 'CANTT, Multan', area: '3,500 sq ft', src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop' },
+  { id: 2, type: 'Villa', title: 'Luxury Villa Complex', location: 'Islamabad', area: '5,000 sq ft', src: 'https://images.unsplash.com/photo-1613490908677-74ea02244a95?q=80&w=2081&auto=format&fit=crop' },
+  { id: 3, type: 'Apartment', title: 'High-end Apartment Block', location: 'Karachi', area: '2,500 sq ft', src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop' },
+  { id: 4, type: 'Renovation', title: 'Heritage Building Restoration', location: 'Lahore', area: '2,800 sq ft', src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop' },
+]
 
-const itemVariants : Variants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 12
-    }
+const servicesData = [
+  { 
+    title: "Design & Planning", 
+    desc: "Architectural design, structural planning, and project documentation to ensure your vision is perfectly captured in buildable plans.",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop"
+  },
+  { 
+    title: "Structure Construction", 
+    desc: "Complete structural work including foundation, framework, and building envelope using premium materials and advanced techniques.",
+    image: "https://images.unsplash.com/photo-1541888086950-ef8fd22e1189?q=80&w=2070&auto=format&fit=crop"
+  },
+  { 
+    title: "Finishing & Interiors", 
+    desc: "Complete interior finishing including electrical, plumbing, flooring, painting, and custom cabinetry for turnkey residential solutions.",
+    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop"
+  },
+  { 
+    title: "Project Supervision", 
+    desc: "End-to-end management of the construction site to ensure quality, safety, and timely delivery.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356f12?q=80&w=2081&auto=format&fit=crop"
   }
-}
-
-const fadeInUp : Variants = {
-  hidden: { y: 40, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.215, 0.61, 0.355, 1]
-    }
-  }
-}
-
-const fadeInRight : Variants = {
-  hidden: { x: -40, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.215, 0.61, 0.355, 1]
-    }
-  }
-}
-
-const fadeInLeft : Variants = {
-  hidden: { x: 40, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.215, 0.61, 0.355, 1]
-    }
-  }
-}
-
-const scaleUp : Variants = {
-  hidden: { scale: 0.8, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.215, 0.61, 0.355, 1]
-    }
-  }
-}
-
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2
-    }
-  }
-}
+]
 
 export default function Home() {
-  const projects = [
-    { id: 1, type: 'House', title: 'Modern Family Residence', location: 'Lahore', area: '3,500 sq ft',
-      src: "/modern.jpeg" },
-    { id: 2, type: 'Villa', title: 'Luxury Villa Complex', location: 'Islamabad', area: '5,000 sq ft',
-      src: "/complex.jpeg" },
-    { id: 3, type: 'Apartment', title: 'High-end Apartment Block', location: 'Karachi', area: '2,500 sq ft',
-      src: "/appartment.jpeg" },
-    {
-      id: 4, type: 'Renovation', title: 'Heritage Building Restoration', location: 'Lahore', area: '2,800 sq ft',
-      src: "/restoration.jpeg"
-    },
-  ]
+  const [activeService, setActiveService] = useState(0)
 
-  // Refs for scroll animations
+  const container = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end end']
+  })
+
+  // Hero Parallax
+  const heroRef = useRef(null)
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start']
+  })
+  const yText = useTransform(heroScroll, [0, 1], [0, 200])
+  const opacityText = useTransform(heroScroll, [0, 1], [1, 0])
+  const scaleImg = useTransform(heroScroll, [0, 1], [1, 1.2])
+
+  // About Section InView
   const aboutRef = useRef(null)
-  const servicesRef = useRef(null)
-  const projectsRef = useRef(null)
-  const ctaRef = useRef(null)
-
-  const aboutInView = useInView(aboutRef, { once: true, margin: "-100px" })
-  const servicesInView = useInView(servicesRef, { once: true, margin: "-100px" })
-  const projectsInView = useInView(projectsRef, { once: true, margin: "-100px" })
-  const ctaInView = useInView(ctaRef, { once: true, margin: "-100px" })
+  const aboutInView = useInView(aboutRef, { once: true, margin: "-20%" })
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Background */}
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hero.webp')" }}
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-        />
-        <div className="absolute inset-0 bg-black/60" />
+    <div ref={container} className="relative bg-[#09090B] text-[#FAFAFA]">
+      
+      {/* --- HERO SECTION --- */}
+      <section ref={heroRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <motion.div style={{ scale: scaleImg }} className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[#09090B]/60 z-10" />
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            {/* Using a high-quality free stock video for architecture/construction */}
+            <source src="hero.mp4" type="video/mp4" />
+          </video>
+        </motion.div>
 
-        <div className="relative container mx-auto px-4 lg:px-8">
+        <motion.div 
+          style={{ y: yText, opacity: opacityText }} 
+          className="relative z-20 container mx-auto px-6 text-center"
+        >
           <motion.div
-            className="max-w-4xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <motion.div
-              className="flex items-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className="h-px w-16 bg-[#D4AF37] mr-4"></div>
-              <span className="text-[#D4AF37] text-sm font-medium tracking-widest uppercase">
-                CONSTRUCTION
-              </span>
-            </motion.div>
-
-            <motion.h1
-              className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              Building Quality
-              <br />
-              <span className="text-[#D4AF37]">Spaces</span>
-            </motion.h1>
-
-            <motion.p
-              className="text-xl text-gray-300 mb-12 max-w-2xl leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              We help turn your ideas into solid foundations with precision, responsibility, and long-term value.
-              Transforming visions into exceptional living spaces across Pakistan.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <Link href="/projects">
-                <motion.button
-                  className="bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:bg-[#C19C30] transition-colors duration-200 flex items-center"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  View Projects
-                  <ArrowRight className="ml-3" size={20} />
-                </motion.button>
-              </Link>
-              <Link href="/contact">
-                <motion.button
-                  className="bg-transparent border-2 border-white text-white px-8 py-4 font-semibold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-200"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Contact Us
-                </motion.button>
-              </Link>
-            </motion.div>
+            <h1 className="text-[12vw] sm:text-[10vw] leading-[0.9] font-bold tracking-tighter uppercase mb-6">
+              Building<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] italic">Quality</span>
+            </h1>
+            <p className="font-mono text-sm md:text-base tracking-widest uppercase text-gray-300 max-w-xl mx-auto">
+              Transforming visions into exceptional living spaces across Pakistan with precision and long-term value.
+            </p>
           </motion.div>
+        </motion.div>
+        
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <span className="font-mono text-xs tracking-widest text-[#D4AF37] uppercase">Scroll</span>
+          <div className="w-[1px] h-12 bg-white/20 overflow-hidden">
+            <motion.div 
+              className="w-full h-full bg-[#D4AF37]"
+              animate={{ y: ['-100%', '100%'] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+            />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* --- ABOUT SECTION --- */}
+      <section ref={aboutRef} className="py-32 lg:py-48 relative z-10 bg-[#09090B]">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0">
+            <div className="lg:col-span-4 flex flex-col justify-between">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={aboutInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <h2 className="text-[#D4AF37] font-mono text-sm tracking-widest uppercase mb-4">Who We Are</h2>
+                <div className="text-6xl font-bold tracking-tighter">10+</div>
+                <div className="font-mono text-xs uppercase tracking-widest text-gray-500 mt-2">Years of Excellence</div>
+              </motion.div>
+            </div>
+            
+            <div className="lg:col-span-8">
+              <motion.h3 
+                className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-12"
+                initial={{ opacity: 0, y: 50 }}
+                animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Hassan Builders is a premier residential construction company based in Multan, specializing in creating exceptional living spaces that blend <span className="text-[#D4AF37] italic">modern design</span> with traditional craftsmanship.
+              </motion.h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-400 font-mono text-sm leading-relaxed">
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  With over a decade of experience, we have established a reputation for delivering projects with precision, reliability, and uncompromising quality standards. Our team of skilled professionals ensures every project meets the highest construction benchmarks.
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  We understand that your home is more than just a structure—it's where memories are made and lives are built. That's why we approach every project with the care and attention it deserves.
+                </motion.p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* About Teaser Section */}
-      <section ref={aboutRef} className="py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              variants={fadeInRight}
-              initial="hidden"
-              animate={aboutInView ? "visible" : "hidden"}
-            >
-              <motion.div
-                className="flex items-center mb-8"
-                variants={fadeInUp}
-              >
-                <div className="h-px w-12 bg-[#D4AF37] mr-4"></div>
-                <span className="text-gray-900 font-medium uppercase tracking-wider">Who We Are</span>
-              </motion.div>
+      {/* --- SERVICES SECTION --- */}
+      <section className="py-32 relative bg-[#09090B] overflow-hidden">
+        {/* Horizontal Line Separator */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent absolute top-0" />
+        
+        <div className="container mx-auto px-6 lg:px-12 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 lg:mb-24">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter uppercase">
+              Our <br/><span className="text-[#D4AF37] italic">Expertise</span>
+            </h2>
+            <p className="font-mono text-sm tracking-widest uppercase text-gray-500 max-w-xs mt-6 md:mt-0 text-left md:text-right">
+              Hover to explore our premium construction solutions.
+            </p>
+          </div>
 
-              <motion.h2
-                className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8 leading-tight"
-                variants={fadeInUp}
-              >
-                Building Excellence in
-                <br />
-                <span className="text-[#D4AF37]">Construction</span>
-              </motion.h2>
-
-              <motion.div
-                className="space-y-6 text-gray-700 mb-8"
-                variants={containerVariants}
-                initial="hidden"
-                animate={aboutInView ? "visible" : "hidden"}
-              >
-                <motion.p className="leading-relaxed" variants={itemVariants}>
-                  Hassan Builders is a premier residential construction company based in Multan,
-                  specializing in creating exceptional living spaces that blend modern design with
-                  traditional craftsmanship.
-                </motion.p>
-                <motion.p className="leading-relaxed" variants={itemVariants}>
-                  With over a decade of experience, we have established a reputation for delivering
-                  projects with precision, reliability, and uncompromising quality standards.
-                  Our team of skilled professionals ensures every project meets the highest
-                  construction benchmarks.
-                </motion.p>
-                <motion.p className="leading-relaxed" variants={itemVariants}>
-                  We understand that your home is more than just a structure—it's where memories
-                  are made and lives are built. That's why we approach every project with the
-                  care and attention it deserves.
-                </motion.p>
-              </motion.div>
-
-              <Link href="/about">
-                <motion.button
-                  className="text-gray-900 font-semibold hover:text-[#D4AF37] transition-colors duration-200 flex items-center group"
-                  whileHover={{ x: 10 }}
-                  variants={fadeInUp}
+          <div className="flex flex-col lg:flex-row gap-16 items-center">
+            {/* Interactive List */}
+            <div className="w-full lg:w-1/2 flex flex-col justify-center">
+              {servicesData.map((service, i) => (
+                <div 
+                  key={i} 
+                  className={`group py-8 lg:py-10 border-b transition-colors duration-500 cursor-pointer ${activeService === i ? 'border-[#D4AF37]' : 'border-white/10 hover:border-white/40'}`}
+                  onMouseEnter={() => setActiveService(i)}
                 >
-                  Learn More About Us
-                  <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={20} />
-                </motion.button>
-              </Link>
-            </motion.div>
-
-            <motion.div
-              className="relative"
-              variants={fadeInLeft}
-              initial="hidden"
-              animate={aboutInView ? "visible" : "hidden"}
-            >
-              <motion.div
-                className="bg-gray-100 h-[500px] relative"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Image
-                    src="/who-we-are.webp"
-                    alt="Hassan Builders Logo"
-                    fill
-                    className="object-cover "
-                  />
+                  <div className="flex items-center gap-6 lg:gap-8">
+                    <span className={`font-mono text-sm transition-colors duration-500 ${activeService === i ? 'text-[#D4AF37]' : 'text-gray-600 group-hover:text-gray-400'}`}>
+                      0{i + 1}
+                    </span>
+                    <h3 className={`text-3xl lg:text-5xl font-bold tracking-tight transition-colors duration-500 ${activeService === i ? 'text-white' : 'text-gray-600 group-hover:text-gray-300'}`}>
+                      {service.title}
+                    </h3>
+                  </div>
+                  
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: activeService === i ? 'auto' : 0, opacity: activeService === i ? 1 : 0 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <p className="font-mono text-sm text-gray-400 mt-6 lg:ml-12 max-w-md leading-relaxed">
+                      {service.desc}
+                    </p>
+                  </motion.div>
                 </div>
-              </motion.div>
-
-              {/* Stats Badge */}
-              <motion.div
-                className="absolute -bottom-6 -right-6 bg-black text-white p-8"
-                initial={{ scale: 0, rotate: -90 }}
-                animate={aboutInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -90 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  delay: 0.5
-                }}
-                whileHover={{
-                  scale: 1.1,
-                  rotate: 5,
-                  transition: { type: "spring", stiffness: 400 }
-                }}
-              >
-                <div className="text-4xl font-bold text-[#D4AF37] mb-2">10+</div>
-                <div className="text-sm uppercase tracking-wider">Years Experience</div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Overview Section */}
-      <section ref={servicesRef} className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            className="text-center max-w-3xl mx-auto mb-16"
-            variants={fadeInUp}
-            initial="hidden"
-            animate={servicesInView ? "visible" : "hidden"}
-          >
-            <motion.div
-              className="flex items-center justify-center mb-8"
-              variants={fadeInUp}
-            >
-              <div className="h-px w-12 bg-[#D4AF37] mr-4"></div>
-              <span className="text-gray-900 font-medium uppercase tracking-wider">Our Expertise</span>
-              <div className="h-px w-12 bg-[#D4AF37] ml-4"></div>
-            </motion.div>
-
-            <motion.h2
-              className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6"
-              variants={fadeInUp}
-            >
-              Comprehensive <span className="text-[#D4AF37]">Construction Services</span>
-            </motion.h2>
-            <motion.p
-              className="text-gray-600 text-lg leading-relaxed"
-              variants={fadeInUp}
-            >
-              End-to-end construction solutions ensuring quality and precision at every stage.
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-3 gap-8 mb-12"
-            variants={staggerContainer}
-            initial="hidden"
-            animate={servicesInView ? "visible" : "hidden"}
-          >
-            {/* Service 1 */}
-            <motion.div
-              className="bg-white p-8 border border-gray-200 hover:border-black transition-colors duration-200"
-              variants={scaleUp}
-              whileHover={{
-                y: -10,
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
-              }}
-            >
-              <motion.div
-                className="w-12 h-12 border border-gray-300 flex items-center justify-center mb-6"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
-                <House className="text-gray-700" size={24} />
-              </motion.div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Design & Planning</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Architectural design, structural planning, and project documentation to ensure
-                your vision is perfectly captured in buildable plans.
-              </p>
-              <ul className="space-y-3">
-                {['Architectural Design', 'Structural Engineering', 'Project Documentation'].map((item, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-center text-gray-700"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={servicesInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ delay: 0.3 + index * 0.1 }}
-                  >
-                    <CheckCircle className="text-[#D4AF37] mr-3 flex-shrink-0" size={16} />
-                    <span className="text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Service 2 */}
-            <motion.div
-              className="bg-white p-8 border border-gray-200 hover:border-black transition-colors duration-200"
-              variants={scaleUp}
-              whileHover={{
-                y: -10,
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
-              }}
-            >
-              <motion.div
-                className="w-12 h-12 border border-gray-300 flex items-center justify-center mb-6"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
-                <Wrench className="text-gray-700" size={24} />
-              </motion.div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Structure Construction</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Complete structural work including foundation, framework, and building envelope
-                using premium materials and advanced techniques.
-              </p>
-              <ul className="space-y-3">
-                {['Foundation Work', 'Structural Framework', 'Building Envelope'].map((item, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-center text-gray-700"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={servicesInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                  >
-                    <CheckCircle className="text-[#D4AF37] mr-3 flex-shrink-0" size={16} />
-                    <span className="text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Service 3 */}
-            <motion.div
-              className="bg-white p-8 border border-gray-200 hover:border-black transition-colors duration-200"
-              variants={scaleUp}
-              whileHover={{
-                y: -10,
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
-              }}
-            >
-              <motion.div
-                className="w-12 h-12 border border-gray-300 flex items-center justify-center mb-6"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
-                <PaintBucket className="text-gray-700" size={24} />
-              </motion.div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Finishing & Interiors</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Complete interior finishing including electrical, plumbing, flooring, painting,
-                and custom cabinetry for turnkey residential solutions.
-              </p>
-              <ul className="space-y-3">
-                {['Electrical & Plumbing', 'Flooring & Painting', 'Interior Design'].map((item, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-center text-gray-700"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={servicesInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                  >
-                    <CheckCircle className="text-[#D4AF37] mr-3 flex-shrink-0" size={16} />
-                    <span className="text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          </motion.div>
-
-          <div className="text-center">
-            <Link href="/services">
-              <motion.button
-                className="bg-black text-white px-8 py-4 font-semibold hover:bg-[#D4AF37] hover:text-black transition-colors duration-200"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0 }}
-                animate={servicesInView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ delay: 0.8 }}
-              >
-                View All Services
-              </motion.button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Preview Section */}
-      <section ref={projectsRef} className="py-20 bg-black">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12"
-            variants={fadeInUp}
-            initial="hidden"
-            animate={projectsInView ? "visible" : "hidden"}
-          >
-            <div>
-              <motion.div
-                className="flex items-center mb-4"
-                variants={fadeInUp}
-              >
-                <div className="h-px w-12 bg-[#D4AF37] mr-4"></div>
-                <span className="text-[#D4AF37] text-sm font-medium tracking-widest uppercase">Our Work</span>
-              </motion.div>
-              <motion.h2
-                className="text-3xl lg:text-4xl font-bold text-white mb-4"
-                variants={fadeInUp}
-              >
-                Featured <span className="text-[#D4AF37]">Projects</span>
-              </motion.h2>
-              <motion.p
-                className="text-gray-400"
-                variants={fadeInUp}
-              >
-                A showcase of our construction excellence across Pakistan
-              </motion.p>
+              ))}
             </div>
 
-            <Link href="/projects" className="mt-6 lg:mt-0">
-              <motion.button
-                className="text-white font-medium hover:text-[#D4AF37] transition-colors duration-200 flex items-center"
-                whileHover={{ x: 10 }}
-              >
-                View All Projects
-                <ArrowRight className="ml-3" size={20} />
-              </motion.button>
-            </Link>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-            variants={staggerContainer}
-            initial="hidden"
-            animate={projectsInView ? "visible" : "hidden"}
-          >
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="group"
-                variants={scaleUp}
-                whileHover={{ y: -10 }}
-              >
+            {/* Dynamic Image Display */}
+            <div className="w-full lg:w-1/2 relative h-[400px] lg:h-[700px] overflow-hidden">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  className="bg-gray-900 h-64 mb-4 relative overflow-hidden"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
+                  key={activeService}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0 w-full h-full bg-gray-900"
                 >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Image
-                      src={project.src}
-                      alt="Hassan Builders Logo"
-                      fill
-                      className="object-cover "
-                    />
-                  </div>
-                  <motion.div
-                    className="absolute top-4 left-4"
-                    initial={{ opacity: 0, y: -20 }}
-                    whileHover={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="bg-black text-white text-xs font-medium px-3 py-1.5">
-                      {project.type}
-                    </span>
-                  </motion.div>
-                </motion.div>
-
-                <div className="space-y-3">
-                  <h3 className="text-lg font-bold text-white group-hover:text-[#D4AF37] transition-colors duration-200">
-                    {project.title}
-                  </h3>
-                  <div className="flex justify-between text-gray-400 text-sm">
-                    <span>{project.location}</span>
-                    <span>{project.area}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section ref={ctaRef} className="py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            className="bg-black py-20 px-8 text-center"
-            variants={scaleUp}
-            initial="hidden"
-            animate={ctaInView ? "visible" : "hidden"}
-            whileHover={{
-              scale: 1.02,
-              transition: { duration: 0.3 }
-            }}
-          >
-            <motion.h2
-              className="text-3xl lg:text-4xl font-bold text-white mb-8 leading-tight"
-              variants={fadeInUp}
-            >
-              Ready to Build Your
-              <br />
-              <span className="text-[#D4AF37]">Dream Residence?</span>
-            </motion.h2>
-
-            <motion.p
-              className="text-xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
-              variants={fadeInUp}
-            >
-              Contact us for a comprehensive consultation. Let's discuss how we can transform
-              your vision into reality with our expertise and commitment to quality.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              variants={containerVariants}
-              initial="hidden"
-              animate={ctaInView ? "visible" : "hidden"}
-            >
-              <Link href="/contact">
-                <motion.button
-                  className="bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:bg-[#C19C30] transition-colors duration-200"
-                  variants={itemVariants}
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 20px 40px rgba(212, 175, 55, 0.3)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Start Your Project
-                </motion.button>
-              </Link>
-              <Link href="/projects">
-                <motion.button
-                  className="bg-transparent border-2 border-white text-white px-8 py-4 font-semibold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-200"
-                  variants={itemVariants}
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 20px 40px rgba(255, 255, 255, 0.1)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  View Our Portfolio
-                </motion.button>
-              </Link>
-            </motion.div>
-
-            {/* Decorative animated element */}
-            <motion.div
-              className="mt-16"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={ctaInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-            >
-              <div className="flex items-center justify-center space-x-8">
-                {[1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-2 h-2 bg-[#D4AF37] rounded-full"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.3, 1, 0.3]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: i * 0.2
-                    }}
+                  <Image 
+                    src={servicesData[activeService].image}
+                    alt={servicesData[activeService].title}
+                    fill
+                    className="object-cover opacity-90"
                   />
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-60" />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* --- PROJECTS SECTION --- */}
+      <section className="py-32 relative bg-white text-[#09090B]">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="flex justify-between items-center mb-20">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter uppercase">Selected Work</h2>
+            <Link href="/projects" className="font-mono text-sm tracking-widest uppercase border-b border-black pb-1 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
+              View All
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+            {projectsData.map((project, i) => (
+              <ProjectCard key={project.id} project={project} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- CTA SECTION --- */}
+      <CtaSection />
+
     </div>
+  )
+}
+
+// --- Subcomponents for animations ---
+
+function CtaSection() {
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start']
+  })
+
+  const yText = useTransform(scrollYProgress, [0, 1], [100, -100])
+  const scaleImg = useTransform(scrollYProgress, [0, 1], [1, 1.15])
+
+  return (
+    <section ref={containerRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#09090B]">
+      <motion.div style={{ scale: scaleImg }} className="absolute inset-0 z-0">
+        <Image 
+          src="https://images.unsplash.com/photo-1600607688969-a5bfcd64bd15?q=80&w=2070&auto=format&fit=crop" 
+          alt="CTA Background" 
+          fill 
+          className="object-cover opacity-40"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/60 to-[#09090B]" />
+      </motion.div>
+
+      <div className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center justify-center h-full">
+        <motion.div style={{ y: yText }} className="flex flex-col items-center">
+          <span className="font-mono text-sm tracking-widest text-[#D4AF37] uppercase mb-8">Next Steps</span>
+          <h2 className="text-[12vw] sm:text-[10vw] leading-[0.8] font-bold tracking-tighter uppercase mb-12 text-transparent bg-clip-text bg-white">
+            START A <br />
+            <span className="italic text-[#D4AF37]">PROJECT</span>
+          </h2>
+          
+          <Link href="/contact" className="group relative inline-flex items-center justify-center w-40 h-40 rounded-full bg-[#FAFAFA] text-[#09090B] overflow-hidden transition-transform duration-500 hover:scale-110">
+            <div className="absolute inset-0 w-full h-full bg-[#D4AF37] rounded-full transform scale-0 group-hover:scale-100 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+            <span className="relative z-10 font-bold tracking-widest uppercase text-xs text-center px-4 group-hover:text-white transition-colors duration-500">
+              Get In<br/>Touch
+            </span>
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+// Removed ServiceCard because it was replaced by the interactive inline list
+
+function ProjectCard({ project, index }: { project: any, index: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-20%" })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 100 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      className={`flex flex-col gap-6 group cursor-pointer ${index % 2 !== 0 ? 'md:mt-32' : ''}`}
+    >
+      <div className="relative w-full aspect-[4/5] overflow-hidden bg-gray-100">
+        <motion.div 
+          className="absolute inset-0"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Image 
+            src={project.src} 
+            alt={project.title} 
+            fill 
+            className="object-cover"
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-center font-mono text-xs tracking-widest uppercase text-gray-500">
+          <span>{project.type}</span>
+          <span>{project.year || "2024"}</span>
+        </div>
+        <h3 className="text-2xl font-bold tracking-tight group-hover:text-[#D4AF37] transition-colors duration-300">
+          {project.title}
+        </h3>
+        <p className="font-mono text-sm text-gray-600">{project.location} &bull; {project.area}</p>
+      </div>
+    </motion.div>
   )
 }

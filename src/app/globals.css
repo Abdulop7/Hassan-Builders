@@ -1,12 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-chivo-mono), ui-monospace, SFMono-Regular, monospace;
+}
 
 :root {
   --primary-gold: #D4AF37;
-  --primary-black: #000000;
+  --primary-black: #09090B;
 }
 
 html {
@@ -15,15 +16,19 @@ html {
 
 body {
   overflow-x: hidden;
+  background-color: #09090B;
+  color: #FAFAFA;
 }
 
 @layer utilities {
-  .gold-gradient {
-    background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
+  .text-gold {
+    color: #D4AF37;
   }
-  
-  .black-gradient {
-    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  .bg-gold {
+    background-color: #D4AF37;
+  }
+  .border-gold {
+    border-color: #D4AF37;
   }
 }
 
@@ -32,9 +37,8 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-
-  -webkit-touch-callout: none; /* disable long press on mobile */
-  -webkit-tap-highlight-color: transparent; /* no blue tap highlight */
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 img {
@@ -45,13 +49,13 @@ img {
 
 .swiper-button-next,
 .swiper-button-prev::after {
-  color: #D4AF37 !important; /* gold */
+  color: #D4AF37 !important;
 }
 
 .swiper-pagination-bullet {
-  background: #ffffff !important; /* gray */
+  background: #3F3F46 !important;
 }
 
 .swiper-pagination-bullet-active {
-  background: #D4AF37 !important; /* gold */
+  background: #D4AF37 !important;
 }
