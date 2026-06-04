@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import SmoothScroll from '@/components/SmoothScroll'
 import CustomCursor from '@/components/CustomCursor'
 import Loader from '@/components/Loader'
+import { Analytics } from "@vercel/analytics/next"
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${chivoMono.variable}`}>
       <body className="bg-[#09090B] text-[#FAFAFA] font-sans antialiased selection:bg-[#D4AF37] selection:text-black">
         <Loader />
+        <Analytics />
         <SmoothScroll>
           <CustomCursor />
           <div className="min-h-screen flex flex-col">
