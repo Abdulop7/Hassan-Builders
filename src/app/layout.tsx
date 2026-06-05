@@ -35,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${chivoMono.variable}`}>
       <body className="bg-[#09090B] text-[#FAFAFA] font-sans antialiased selection:bg-[#D4AF37] selection:text-black">
+        <meta name="google-site-verification" content="3WBPPuiFaInCvl8xN5TZ8Znz76u8jqqDkY4aJpTGB_U" />
         <Loader />
         <Analytics />
         <SmoothScroll>
