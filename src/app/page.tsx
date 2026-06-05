@@ -90,9 +90,24 @@ export default function Home() {
               Building<br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] italic">Quality</span>
             </h1>
-            <p className="font-mono text-sm md:text-base tracking-widest uppercase text-gray-300 max-w-xl mx-auto">
+            <p className="font-mono text-sm md:text-base tracking-widest uppercase text-gray-300 max-w-xl mx-auto mb-12">
               Transforming visions into exceptional living spaces across Pakistan with precision and long-term value.
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href="/projects" className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-white/30 text-[#FAFAFA] overflow-hidden transition-all duration-500 hover:border-[#D4AF37] w-full sm:w-auto">
+                <div className="absolute inset-0 w-full h-full bg-[#D4AF37] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+                <span className="relative z-10 font-mono text-xs tracking-widest uppercase group-hover:text-[#09090B] group-hover:font-bold transition-all duration-500">
+                  View Projects
+                </span>
+              </Link>
+              <Link href="/contact" className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#FAFAFA] text-[#09090B] overflow-hidden transition-all duration-500 w-full sm:w-auto">
+                <div className="absolute inset-0 w-full h-full bg-[#D4AF37] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+                <span className="relative z-10 font-mono text-xs font-bold tracking-widest uppercase group-hover:text-[#09090B] transition-all duration-500">
+                  Contact Us
+                </span>
+              </Link>
+            </div>
           </motion.div>
         </motion.div>
         

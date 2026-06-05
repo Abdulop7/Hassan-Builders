@@ -19,8 +19,12 @@ const chivoMono = Chivo_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Hassan Builders | Luxury Construction',
-  description: 'Premium residential construction services in Pakistan. Building quality spaces.',
+  title: {
+    template: '%s | Hassan Builders',
+    default: 'Hassan Builders – Construction Company in Multan | Home Builders & House Designers',
+  },
+  description: 'Looking for home builders or house designers near you? Hassan Builders is a leading construction company in Multan, Punjab, Pakistan, offering residential construction, renovations, architectural design, turnkey building solutions, and project management services.',
+  keywords: ['consolidated construction company', 'home builders', 'renovations', 'house designers near me', 'construction company in multan'],
 }
 
 export default function RootLayout({

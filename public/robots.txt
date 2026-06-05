@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Block internal Next.js files and dynamic build routes
+Disallow: /_next/
+Disallow: /api/
+Disallow: /private/
+
+# Allow your main content
+Allow: /about/
+Allow: /projects/
+Allow: /services/
+Allow: /contact/
+
+Sitemap: https://www.hbconstruction.to/sitemap.xml
