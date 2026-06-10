@@ -44,13 +44,7 @@ export default function ProjectsPage() {
       ? projects
       : projects.filter((project) => normalizeType(project.type) === activeFilter)
 
-  // Use realistic Unsplash images instead of local paths
-  const unsplashPlaceholders = [
-    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1613490908677-74ea02244a95?q=80&w=2081&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop',
-  ]
+
 
   return (
     <div ref={containerRef} className="relative bg-[#09090B] text-[#FAFAFA] min-h-screen selection:bg-[#D4AF37] selection:text-[#09090B]">
@@ -108,7 +102,7 @@ export default function ProjectsPage() {
                 key={project.id} 
                 project={project} 
                 index={index} 
-                image={unsplashPlaceholders[index % unsplashPlaceholders.length]} 
+                image={project.preview} 
               />
             ))}
           </div>
@@ -152,7 +146,7 @@ function ProjectCard({ project, index, image }: { project: any, index: number, i
         className="flex flex-col gap-8 group cursor-pointer"
       >
         {/* Image Container */}
-        <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#111111]">
+        <div className="relative w-full aspect-video overflow-hidden bg-[#111111]">
           <motion.div style={{ y: imgY }} className="absolute inset-[-10%] w-[120%] h-[120%]">
             <Image 
               src={image} 

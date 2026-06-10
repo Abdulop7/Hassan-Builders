@@ -1,46 +1,37 @@
 [
     {
         "id": 1,
-        "title": "4 KANAL RESIDENTIAL",
-        "year": "2024",
+        "title": "1 KANAL RESIDENTIAL (Plot M-14)",
+        "year": "2023",
         "type": "Residential",
-        "location": "CANTT, Multan",
-        "area": "3,500 sq ft",
-        "description": "Maddam Rahat living in this stunning 4 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
-        "preview": "/projects/4_Kanal/10.webp",
+        "location": "Buch Villas, Multan",
+        "area": "5,400 sq ft",
+        "description": "MR. Zia living in this stunning 4 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "preview": "/projects/Zia_1_Kanal/7.webp",
         "images": [
             {
-                "url": "/projects/4_Kanal/10.webp"
+                "url": "/projects/Zia_1_Kanal/1.webp"
             },
             {
-                "url": "/projects/4_Kanal/9.webp"
+                "url": "/projects/Zia_1_Kanal/2.webp"
             },
             {
-                "url": "/projects/4_Kanal/8.webp"
+                "url": "/projects/Zia_1_Kanal/3.webp"
             },
             {
-                "url": "/projects/4_Kanal/7.webp"
+                "url": "/projects/Zia_1_Kanal/4.webp"
             },
             {
-                "url": "/projects/4_Kanal/1.webp"
+                "url": "/projects/Zia_1_Kanal/5.webp"
             },
             {
-                "url": "/projects/4_Kanal/2.webp"
+                "url": "/projects/Zia_1_Kanal/6.webp"
             },
             {
-                "url": "/projects/4_Kanal/3.webp"
+                "url": "/projects/Zia_1_Kanal/7.webp"
             },
             {
-                "url": "/projects/4_Kanal/4.webp"
-            },
-            {
-                "url": "/projects/4_Kanal/5.webp"
-            },
-            {
-                "url": "/projects/4_Kanal/6.webp"
-            },
-            {
-                "url": "/projects/4_Kanal/11.webp"
+                "url": "/projects/Zia_1_Kanal/8.webp"
             }
         ]
     }

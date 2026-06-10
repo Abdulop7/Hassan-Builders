@@ -223,26 +223,9 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Dynamic Image Display */}
-            <div className="w-full lg:w-1/2 relative h-[400px] lg:h-[700px] overflow-hidden">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeService}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 w-full h-full bg-gray-900"
-                >
-                  <Image 
-                    src={servicesData[activeService].image}
-                    alt={servicesData[activeService].title}
-                    fill
-                    className="object-cover opacity-90"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-60" />
-                </motion.div>
-              </AnimatePresence>
+            {/* Interactive Graphic Display */}
+            <div className="w-full lg:w-1/2 relative h-[400px] lg:h-[700px] overflow-hidden rounded-xl border border-white/5">
+              <ExpertiseGraphic activeService={activeService} />
             </div>
           </div>
         </div>
@@ -356,6 +339,275 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
         </h3>
         <p className="font-mono text-sm text-gray-600">{project.location} &bull; {project.area}</p>
       </div>
+    </motion.div>
+  )
+}
+
+function ExpertiseGraphic({ activeService }: { activeService: number }) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2 // -1 to 1
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2 // -1 to 1
+    setMousePosition({ x, y })
+  }
+
+  const handleMouseLeave = () => {
+    setMousePosition({ x: 0, y: 0 })
+  }
+
+  return (
+    <div 
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="w-full h-full relative flex items-center justify-center bg-[#09090B] overflow-hidden group cursor-crosshair border border-white/5 rounded-xl"
+    >
+      {/* Blueprint Grid Background */}
+      <div 
+        className="absolute inset-0 opacity-[0.05] transition-opacity duration-1000 group-hover:opacity-[0.1]" 
+        style={{ 
+          backgroundImage: 'linear-gradient(#D4AF37 1px, transparent 1px), linear-gradient(90deg, #D4AF37 1px, transparent 1px)', 
+          backgroundSize: '40px 40px',
+        }} 
+      />
+
+      <AnimatePresence mode="wait">
+        {activeService === 0 && <DesignGraphic key="design" mousePosition={mousePosition} />}
+        {activeService === 1 && <StructureGraphic key="structure" mousePosition={mousePosition} />}
+        {activeService === 2 && <InteriorGraphic key="interior" mousePosition={mousePosition} />}
+        {activeService === 3 && <SupervisionGraphic key="supervision" mousePosition={mousePosition} />}
+      </AnimatePresence>
+
+      {/* Dynamic Lighting Overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen"
+        style={{
+          background: `radial-gradient(circle 300px at ${(mousePosition.x / 2 + 0.5) * 100}% ${(mousePosition.y / 2 + 0.5) * 100}%, rgba(212,175,55,0.1) 0%, transparent 100%)`
+        }}
+      />
+    </div>
+  )
+}
+
+// 0: Design & Planning - Interactive drafting board
+function DesignGraphic({ mousePosition }: { mousePosition: { x: number, y: number } }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full h-full flex items-center justify-center"
+    >
+      <svg width="60%" height="60%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
+        {/* Static Blueprint House */}
+        <motion.path
+          d="M20 180 L20 100 L100 30 L180 100 L180 180 Z"
+          stroke="#D4AF37"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2, ease: "easeInOut" }}
+        />
+        <motion.path
+          d="M60 180 L60 120 L100 120 L100 180"
+          stroke="#D4AF37"
+          strokeWidth="2"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, delay: 0.5 }}
+        />
+        <motion.path
+          d="M130 100 L160 100 L160 140 L130 140 Z"
+          stroke="#D4AF37"
+          strokeWidth="2"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, delay: 1 }}
+        />
+
+        {/* Interactive Drafting Pen/Compass */}
+        <motion.g
+          animate={{
+            x: mousePosition.x * 100,
+            y: mousePosition.y * 100,
+            rotate: mousePosition.x * 20
+          }}
+          transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+        >
+          {/* Pen Tool */}
+          <path d="M0 0 L-20 -50 L-10 -60 L10 -10 Z" fill="#FAFAFA" />
+          <path d="M0 0 L-5 -15 L5 -15 Z" fill="#D4AF37" />
+          {/* Trail / Measurement lines following pen */}
+          <line x1="0" y1="0" x2="-50" y2="0" stroke="white" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
+          <line x1="0" y1="0" x2="0" y2="50" stroke="white" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
+        </motion.g>
+      </svg>
+    </motion.div>
+  )
+}
+
+// 1: Structure Construction - Interactive crane building a wall
+function StructureGraphic({ mousePosition }: { mousePosition: { x: number, y: number } }) {
+  // Constrain crane arm rotation between -45 and 45 degrees
+  const craneRotation = Math.max(-45, Math.min(45, mousePosition.x * 60));
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full h-full flex items-end justify-center pb-20"
+    >
+      <svg width="80%" height="80%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
+        {/* Building Foundation/Wall */}
+        <path d="M50 200 L150 200 L150 160 L50 160 Z" fill="#111" stroke="#D4AF37" strokeWidth="2" />
+        <path d="M70 160 L130 160 L130 130 L70 130 Z" fill="#111" stroke="#D4AF37" strokeWidth="2" />
+        
+        {/* Crane Tower (Static) */}
+        <path d="M180 200 L180 50 L190 50 L190 200 Z" fill="#FAFAFA" />
+        <path d="M180 180 L190 170 M180 160 L190 150 M180 140 L190 130 M180 120 L190 110" stroke="#09090B" strokeWidth="2" />
+
+        {/* Interactive Crane Arm */}
+        <motion.g
+          style={{ originX: '185px', originY: '50px' }}
+          animate={{ rotate: craneRotation }}
+          transition={{ type: 'spring', stiffness: 50, damping: 15 }}
+        >
+          {/* Crane Boom */}
+          <path d="M200 50 L20 50 L20 40 L200 40 Z" fill="#FAFAFA" />
+          <path d="M40 50 L30 40 M60 50 L50 40 M80 50 L70 40" stroke="#09090B" strokeWidth="2" />
+          
+          {/* Crane Hook & Cable moving along the arm based on Y mouse position */}
+          <motion.g
+            animate={{ x: mousePosition.y * 50 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+          >
+            <line x1="60" y1="50" x2="60" y2="100" stroke="white" strokeWidth="1" />
+            <path d="M55 100 L65 100 L65 110 L55 110 Z" fill="#D4AF37" />
+          </motion.g>
+        </motion.g>
+      </svg>
+    </motion.div>
+  )
+}
+
+// 2: Finishing & Interiors - Interactive room lighting
+function InteriorGraphic({ mousePosition }: { mousePosition: { x: number, y: number } }) {
+  // Calculate light beam rotation based on mouse
+  const lightAngle = mousePosition.x * 40; // -40 to 40 degrees
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 1.05 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full h-full flex items-center justify-center"
+    >
+      <svg width="70%" height="70%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
+        {/* Room Walls */}
+        <path d="M20 20 L20 180 L180 180" stroke="#FAFAFA" strokeWidth="2" strokeOpacity="0.2" />
+        
+        {/* Window */}
+        <rect x="40" y="40" width="60" height="80" stroke="#D4AF37" strokeWidth="2" fill="none" />
+        <line x1="40" y1="80" x2="100" y2="80" stroke="#D4AF37" strokeWidth="2" />
+        <line x1="70" y1="40" x2="70" y2="120" stroke="#D4AF37" strokeWidth="2" />
+
+        {/* Modern Sofa */}
+        <path d="M120 160 L180 160 L180 130 L160 130 L160 140 L120 140 Z" fill="#111" stroke="#FAFAFA" strokeWidth="2" />
+        
+        {/* Floor Lamp (Static base) */}
+        <path d="M100 180 L100 100" stroke="#FAFAFA" strokeWidth="2" />
+        <path d="M90 180 L110 180" stroke="#FAFAFA" strokeWidth="2" />
+
+        {/* Interactive Lamp Head & Light Beam */}
+        <motion.g
+          style={{ originX: '100px', originY: '100px' }}
+          animate={{ rotate: lightAngle }}
+          transition={{ type: 'spring', stiffness: 60, damping: 20 }}
+        >
+          {/* Lamp Shade */}
+          <path d="M90 100 L110 100 L105 80 L95 80 Z" fill="#FAFAFA" />
+          
+          {/* Glowing Light Beam */}
+          <polygon points="95,80 105,80 160,0 40,0" fill="url(#lightGrad)" opacity="0.4" />
+        </motion.g>
+
+        <defs>
+          <linearGradient id="lightGrad" x1="100" y1="80" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#D4AF37" stopOpacity="0.8" />
+            <stop offset="1" stopColor="#D4AF37" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </motion.div>
+  )
+}
+
+// 3: Project Supervision - Interactive clipboard and checklist
+function SupervisionGraphic({ mousePosition }: { mousePosition: { x: number, y: number } }) {
+  // Determine which item is being hovered based on Y position
+  const activeItemIndex = mousePosition.y < -0.3 ? 0 : mousePosition.y < 0.3 ? 1 : 2;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotateY: 90 }}
+      animate={{ opacity: 1, rotateY: 0 }}
+      exit={{ opacity: 0, rotateY: -90 }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full h-full flex items-center justify-center"
+    >
+      <svg width="50%" height="70%" viewBox="0 0 150 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
+        {/* Clipboard Base */}
+        <rect x="10" y="20" width="130" height="170" rx="5" fill="#111" stroke="#FAFAFA" strokeWidth="2" />
+        
+        {/* Clip */}
+        <path d="M50 20 L50 10 C50 5 55 0 60 0 L90 0 C95 0 100 5 100 10 L100 20 Z" fill="#D4AF37" />
+        <rect x="40" y="15" width="70" height="15" rx="2" fill="#FAFAFA" />
+
+        {/* Checklist Items */}
+        {[0, 1, 2].map((i) => (
+          <g key={i} transform={`translate(25, ${50 + i * 40})`}>
+            {/* Checkbox Box */}
+            <rect x="0" y="0" width="15" height="15" rx="2" stroke={activeItemIndex >= i ? "#D4AF37" : "#555"} strokeWidth="2" />
+            
+            {/* Checkmark (Animated based on mouse position) */}
+            <motion.path
+              d="M3 8 L6 11 L12 4"
+              stroke="#D4AF37"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: activeItemIndex >= i ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            
+            {/* Text Line */}
+            <line x1="25" y1="7.5" x2="100" y2="7.5" stroke={activeItemIndex >= i ? "#FAFAFA" : "#555"} strokeWidth="4" strokeLinecap="round" />
+            <line x1="25" y1="15" x2="80" y2="15" stroke={activeItemIndex >= i ? "#FAFAFA" : "#555"} strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+          </g>
+        ))}
+
+        {/* Interactive Pen hovering over active item */}
+        <motion.g
+          animate={{
+            x: mousePosition.x * 30,
+            y: 50 + activeItemIndex * 40
+          }}
+          transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+        >
+          <path d="M10 10 L30 -10 L35 -5 L15 15 Z" fill="#D4AF37" />
+          <path d="M10 10 L5 15 L15 15 Z" fill="#FAFAFA" />
+        </motion.g>
+      </svg>
     </motion.div>
   )
 }

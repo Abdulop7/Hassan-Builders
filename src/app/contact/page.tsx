@@ -146,6 +146,44 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* --- MAP SECTION --- */}
+      <section className="py-24 relative bg-[#09090B]">
+        <div className="container mx-auto px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full aspect-[21/9] md:aspect-[21/7] overflow-hidden bg-[#111111] border border-white/5"
+          >
+            {/* The CSS filters turn the standard Google Map into a dark mode map matching our theme */}
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13788.169726210217!2d71.46467025!3d30.2359489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x393b36ab8f041289%3A0xc66c1b3d63b27b3e!2sMultan%20Public%20School%20Rd%2C%20Multan%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1714571234567!5m2!1sen!2s" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0, filter: 'grayscale(100%) invert(92%) contrast(105%) hue-rotate(180deg)' }} 
+              allowFullScreen={false} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+            
+            {/* Overlay for interaction prevention or pure styling if needed, but we let users interact */}
+            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(9,9,11,1)]" />
+            
+            {/* Floating Info Badge */}
+            <div className="absolute bottom-8 left-8 bg-[#09090B]/80 backdrop-blur-md border border-white/10 p-6 max-w-xs pointer-events-auto hidden md:block">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
+                <span className="font-mono text-[10px] tracking-widest text-[#D4AF37] uppercase">Headquarters</span>
+              </div>
+              <p className="font-mono text-xs uppercase text-gray-400 leading-relaxed">
+                Near Green View Housing Scheme<br/>Multan Public School Road
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* --- FAQ SECTION --- */}
       <section ref={faqRef} className="py-32 lg:py-48 bg-[#09090B] border-t border-white/5">
         <div className="container mx-auto px-6 lg:px-12">

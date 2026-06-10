@@ -7,15 +7,6 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import projectsData from '../../projects.json'
 
-// Unsplash fallback images since local assets might not exist or be high enough quality for a "Vaulk" look yet
-const fallbackGallery = [
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1613490908677-74ea02244a95?q=80&w=2081&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop'
-]
-
 export default function ProjectDetail({ params }: { params: Promise<{ id: string }> }) {
   // Unwrap params
   const { id } = use(params)
@@ -43,8 +34,8 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
   const currentIndex = projectsData.findIndex(p => p.id === project.id)
   const nextProject = projectsData[(currentIndex + 1) % projectsData.length]
 
-  // For high-end look, mix local images if they work, but default to beautiful architecture fallbacks
-  const galleryImages = fallbackGallery
+  // Use actual project images from JSON
+  const galleryImages = project.images ? project.images.map((img: any) => img.url) : [project.preview]
 
   return (
     <div className="relative bg-[#09090B] text-[#FAFAFA] min-h-screen">
@@ -54,7 +45,7 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
         <motion.div style={{ scale: scaleImg }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/40 to-transparent z-10" />
           <Image 
-            src={fallbackGallery[0]} 
+            src={project.preview} 
             alt={project.title} 
             fill 
             className="object-cover"
@@ -133,7 +124,7 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
       <section className="pb-32 bg-[#09090B]">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {galleryImages.map((src, index) => {
+            {galleryImages.map((src: string, index: number) => {
               // Stagger every second image to create a masonry-like feel
               const isEven = index % 2 === 0
               return (
@@ -143,7 +134,7 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-10%" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className={`relative w-full overflow-hidden bg-gray-900 group ${!isEven ? 'md:mt-24' : ''} ${index === galleryImages.length - 1 && isEven ? 'md:col-span-2 aspect-[21/9]' : 'aspect-[4/5]'}`}
+                  className={`relative w-full overflow-hidden bg-gray-900 group ${!isEven ? 'md:mt-24' : ''} ${index === galleryImages.length - 1 && isEven ? 'md:col-span-2 aspect-video' : 'aspect-video'}`}
                 >
                   <Image 
                     src={src}
@@ -160,11 +151,11 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
 
       {/* --- NEXT PROJECT CTA --- */}
       {nextProject && (
-        <section className="py-32 bg-white text-[#09090B] relative overflow-hidden">
+        <section className="py-32 bg-[#111111] text-[#FAFAFA] border-t border-white/5 relative overflow-hidden">
           <div className="container mx-auto px-6 lg:px-12 text-center relative z-10">
-            <h4 className="font-mono text-sm tracking-widest text-gray-500 uppercase mb-8">Next Project</h4>
+            <h4 className="font-mono text-sm tracking-widest text-[#D4AF37] uppercase mb-8">Next Project</h4>
             <Link href={`/projects/${nextProject.id}`} className="group inline-block">
-              <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter uppercase whitespace-nowrap text-transparent bg-clip-text bg-black group-hover:bg-[#D4AF37] transition-all duration-500 hover:italic">
+              <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter uppercase whitespace-nowrap text-transparent bg-clip-text bg-white group-hover:bg-[#D4AF37] transition-all duration-500 hover:italic">
                 {nextProject.title}
               </h2>
             </Link>
