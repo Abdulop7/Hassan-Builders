@@ -1,22 +1,22 @@
 'use client'
 
-import { useRef, use } from 'react'
+import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import projectsData from '../../projects.json'
 
-export default function ProjectDetail({ params }: { params: Promise<{ id: string }> }) {
-  // Unwrap params
-  const { id } = use(params)
-  
-  const project = projectsData.find(p => p.id.toString() === id)
-  
-  if (!project) {
-    notFound()
-  }
+function slugify(title: string, id: number | string) {
+  return (
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") +
+    "-" +
+    id
+  );
+}
 
+export default function ProjectClient({ project, nextProject }: { project: any, nextProject: any }) {
   // Hero Parallax
   const heroRef = useRef(null)
   const { scrollYProgress: heroScroll } = useScroll({
@@ -29,10 +29,6 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
 
   const contentRef = useRef(null)
   const contentInView = useInView(contentRef, { once: true, margin: "-20%" })
-
-  // Determine next project
-  const currentIndex = projectsData.findIndex(p => p.id === project.id)
-  const nextProject = projectsData[(currentIndex + 1) % projectsData.length]
 
   // Use actual project images from JSON
   const galleryImages = project.images ? project.images.map((img: any) => img.url) : [project.preview]
@@ -151,16 +147,38 @@ export default function ProjectDetail({ params }: { params: Promise<{ id: string
 
       {/* --- NEXT PROJECT CTA --- */}
       {nextProject && (
-        <section className="py-32 bg-[#111111] text-[#FAFAFA] border-t border-white/5 relative overflow-hidden">
-          <div className="container mx-auto px-6 lg:px-12 text-center relative z-10">
-            <h4 className="font-mono text-sm tracking-widest text-[#D4AF37] uppercase mb-8">Next Project</h4>
-            <Link href={`/projects/${nextProject.id}`} className="group inline-block">
-              <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter uppercase whitespace-nowrap text-transparent bg-clip-text bg-white group-hover:bg-[#D4AF37] transition-all duration-500 hover:italic">
+        <Link 
+          href={`/projects/${slugify(nextProject.title, nextProject.id)}`} 
+          className="block group relative h-[60vh] lg:h-[80vh] w-full flex flex-col items-center justify-center overflow-hidden border-t border-white/5"
+        >
+          {/* Background Image with Cinematic Overlay */}
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-[#09090B]/80 group-hover:bg-[#09090B]/40 transition-colors duration-1000 z-10" />
+            <Image 
+              src={nextProject.preview}
+              alt={nextProject.title}
+              fill
+              className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out opacity-80"
+            />
+          </div>
+          
+          {/* Content */}
+          <div className="container mx-auto px-6 lg:px-12 text-center relative z-20 flex flex-col items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h4 className="font-mono text-xs sm:text-sm tracking-widest text-[#D4AF37] uppercase mb-6 sm:mb-8 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                View Next Project
+              </h4>
+              <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-[7vw] font-bold tracking-tighter uppercase text-[#FAFAFA] group-hover:text-[#D4AF37] transition-all duration-700 group-hover:italic break-words whitespace-normal leading-[0.9] max-w-7xl mx-auto px-4">
                 {nextProject.title}
               </h2>
-            </Link>
+            </motion.div>
           </div>
-        </section>
+        </Link>
       )}
 
     </div>

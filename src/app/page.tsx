@@ -5,12 +5,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'fra
 import Image from 'next/image'
 import Link from 'next/link'
 
-const projectsData = [
-  { id: 1, type: 'House', title: '4 KANAL RESIDENTIAL', location: 'CANTT, Multan', area: '3,500 sq ft', src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop' },
-  { id: 2, type: 'Villa', title: 'Luxury Villa Complex', location: 'Islamabad', area: '5,000 sq ft', src: 'https://images.unsplash.com/photo-1613490908677-74ea02244a95?q=80&w=2081&auto=format&fit=crop' },
-  { id: 3, type: 'Apartment', title: 'High-end Apartment Block', location: 'Karachi', area: '2,500 sq ft', src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop' },
-  { id: 4, type: 'Renovation', title: 'Heritage Building Restoration', location: 'Lahore', area: '2,800 sq ft', src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop' },
-]
+import projectsData from './projects.json'
 
 const servicesData = [
   { 
@@ -302,26 +297,38 @@ function CtaSection() {
 
 // Removed ServiceCard because it was replaced by the interactive inline list
 
+function slugify(title: string, id: number | string) {
+  return (
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") +
+    "-" +
+    id
+  );
+}
+
 function ProjectCard({ project, index }: { project: any, index: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-20%" })
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 100 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className={`flex flex-col gap-6 group cursor-pointer ${index % 2 !== 0 ? 'md:mt-32' : ''}`}
-    >
-      <div className="relative w-full aspect-[4/5] overflow-hidden bg-gray-100">
-        <motion.div 
+    <Link href={`/projects/${slugify(project.title, project.id)}`} className="block">
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 100 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className={`flex flex-col gap-6 group cursor-pointer ${index % 2 !== 0 ? 'md:mt-32' : ''}`}
+      >
+        <div className="relative w-full aspect-[4/5] overflow-hidden bg-gray-100">
+          <motion.div 
           className="absolute inset-0"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <Image 
-            src={project.src} 
+            src={project.preview} 
             alt={project.title} 
             fill 
             className="object-cover"
@@ -340,6 +347,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
         <p className="font-mono text-sm text-gray-600">{project.location} &bull; {project.area}</p>
       </div>
     </motion.div>
+    </Link>
   )
 }
 

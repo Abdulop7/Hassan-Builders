@@ -34,5 +34,32 @@
                 "url": "/projects/Zia_1_Kanal/8.webp"
             }
         ]
+    },
+    {
+        "id": 2,
+        "title": "1.5 KANAL RESIDENTIAL",
+        "year": "2023",
+        "type": "Residential",
+        "location": "Buch Villas, Multan",
+        "area": "6,750 sq ft",
+        "description": "MR. Hassan living in this stunning 4 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "preview": "/projects/Hassan_1.5_Kanal/4.webp",
+        "images": [
+            {
+                "url": "/projects/Hassan_1.5_Kanal/1.webp"
+            },
+            {
+                "url": "/projects/Hassan_1.5_Kanal/2.webp"
+            },
+            {
+                "url": "/projects/Hassan_1.5_Kanal/3.webp"
+            },
+            {
+                "url": "/projects/Hassan_1.5_Kanal/4.webp"
+            },
+            {
+                "url": "/projects/Hassan_1.5_Kanal/5.webp"
+            }
+        ]
     }
 ]

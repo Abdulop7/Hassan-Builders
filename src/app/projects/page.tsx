@@ -125,6 +125,17 @@ export default function ProjectsPage() {
   )
 }
 
+function slugify(title: string, id: number | string) {
+  return (
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") +
+    "-" +
+    id
+  );
+}
+
 function ProjectCard({ project, index, image }: { project: any, index: number, image: string }) {
   const cardRef = useRef(null)
   const isInView = useInView(cardRef, { once: true, margin: "-10%" })
@@ -137,7 +148,7 @@ function ProjectCard({ project, index, image }: { project: any, index: number, i
   const imgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"])
 
   return (
-    <Link href={`/projects/${project.id}`} className={`block ${index % 2 !== 0 ? 'md:mt-48' : ''}`}>
+    <Link href={`/projects/${slugify(project.title, project.id)}`} className={`block ${index % 2 !== 0 ? 'md:mt-48' : ''}`}>
       <motion.div
         ref={cardRef}
         initial={{ opacity: 0, y: 100 }}
