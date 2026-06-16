@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useTransform, useInView, AnimatePresence, animate } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -86,7 +86,7 @@ export default function Home() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] italic">Quality</span>
             </h1>
             <p className="font-mono text-sm md:text-base tracking-widest uppercase text-gray-300 max-w-xl mx-auto mb-12">
-              Transforming visions into exceptional living spaces across Pakistan with precision and long-term value.
+              As a leading consolidated construction company and premium home builders, we transform visions into exceptional living spaces across Pakistan.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -147,7 +147,7 @@ export default function Home() {
                 animate={aboutInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               >
-                Hassan Builders is a premier residential construction company based in Multan, specializing in creating exceptional living spaces that blend <span className="text-[#D4AF37] italic">modern design</span> with traditional craftsmanship.
+                Hassan Builders is a premier construction company in Multan. Whether you are looking for top-tier home builders or searching for the best house designers near me, we specialize in creating exceptional spaces that blend <span className="text-[#D4AF37] italic">modern design</span> with traditional craftsmanship.
               </motion.h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-400 font-mono text-sm leading-relaxed">
@@ -156,7 +156,7 @@ export default function Home() {
                   animate={aboutInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  With over a decade of experience, we have established a reputation for delivering projects with precision, reliability, and uncompromising quality standards. Our team of skilled professionals ensures every project meets the highest construction benchmarks.
+                  With over a decade of experience as a consolidated construction company, we have established a stellar reputation. From ground-up builds to luxury renovations, our team of skilled professionals ensures every project meets the highest benchmarks.
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0, y: 30 }}
@@ -170,6 +170,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* --- IMPACT SECTION --- */}
+      <ImpactSection />
 
       {/* --- SERVICES SECTION --- */}
       <section className="py-32 relative bg-[#09090B] overflow-hidden">
@@ -226,6 +229,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* --- PROCESS SECTION --- */}
+      <ProcessSection />
+
       {/* --- PROJECTS SECTION --- */}
       <section className="py-32 relative bg-white text-[#09090B]">
         <div className="container mx-auto px-6 lg:px-12">
@@ -243,6 +249,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* --- TESTIMONIALS SECTION --- */}
+      <TestimonialsSection />
 
       {/* --- CTA SECTION --- */}
       <CtaSection />
@@ -617,5 +626,177 @@ function SupervisionGraphic({ mousePosition }: { mousePosition: { x: number, y: 
         </motion.g>
       </svg>
     </motion.div>
+  )
+}
+
+// --- NEW SECTIONS ---
+
+function ImpactSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-20%" })
+
+  const stats = [
+    { label: "Projects Delivered", value: 50, suffix: "+" },
+    { label: "Sq. Ft. Constructed", value: 300, suffix: "k+" },
+    { label: "Industry Awards", value: 15, suffix: "+" },
+    { label: "Client Satisfaction", value: 100, suffix: "%" },
+  ]
+
+  return (
+    <section ref={ref} className="py-24 lg:py-32 bg-[#D4AF37] text-[#09090B]">
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+          {stats.map((stat, i) => (
+            <div key={i} className="flex flex-col items-center justify-center">
+              <div className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 flex items-center">
+                <Counter from={0} to={stat.value} trigger={isInView} />
+                <span>{stat.suffix}</span>
+              </div>
+              <div className="font-mono text-xs tracking-widest uppercase font-bold">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Counter({ from, to, trigger }: { from: number, to: number, trigger: boolean }) {
+  const [count, setCount] = useState(from)
+
+  useEffect(() => {
+    if (trigger) {
+      const controls = animate(from, to, {
+        duration: 2,
+        ease: "easeOut",
+        onUpdate(value) {
+          setCount(Math.round(value))
+        }
+      })
+      return () => controls.stop()
+    }
+  }, [from, to, trigger])
+
+  return <span>{count}</span>
+}
+
+const processData = [
+  { id: "01", title: "Concept & Blueprint", desc: "Translating vision into actionable architecture. We start with extensive consultations to understand your lifestyle and aesthetic preferences before crafting detailed blueprints." },
+  { id: "02", title: "Pre-Construction", desc: "Securing permits, sourcing premium materials globally, and preparing the site. We handle all regulatory requirements to ensure a seamless build." },
+  { id: "03", title: "Execution", desc: "Precision building with strict quality control. Our master craftsmen and site engineers work in harmony to bring the blueprints to life." },
+  { id: "04", title: "Handover", desc: "Final detailing and comprehensive client walkthrough. We ensure every fixture is perfect before handing over the keys to your new home." },
+]
+
+function ProcessSection() {
+  const containerRef = useRef(null)
+  
+  return (
+    <section ref={containerRef} className="py-32 relative bg-[#09090B] border-t border-white/5">
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+          
+          {/* Sticky Left */}
+          <div className="lg:w-1/3 lg:sticky lg:top-32">
+            <h2 className="text-[#D4AF37] font-mono text-sm tracking-widest uppercase mb-4">Our Process</h2>
+            <h3 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none uppercase">
+              How We<br/><span className="italic text-[#D4AF37]">Build</span>
+            </h3>
+          </div>
+          
+          {/* Scrolling Right */}
+          <div className="lg:w-2/3 flex flex-col gap-24 mt-12 lg:mt-0">
+            {processData.map((step, i) => (
+              <ProcessStep key={step.id} step={step} index={i} />
+            ))}
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ProcessStep({ step, index }: { step: any, index: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-20%" })
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="relative pl-8 md:pl-12 border-l border-white/10"
+    >
+      <motion.div 
+        className="absolute top-0 left-0 w-[2px] bg-[#D4AF37]"
+        initial={{ height: 0 }}
+        animate={isInView ? { height: "100%" } : {}}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        style={{ transform: "translateX(-1px)" }}
+      />
+      <div className="text-[#D4AF37] font-mono text-xl md:text-2xl mb-6">
+        {step.id}
+      </div>
+      <h4 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">{step.title}</h4>
+      <p className="text-gray-400 leading-relaxed max-w-xl font-mono text-sm">{step.desc}</p>
+    </motion.div>
+  )
+}
+
+const testimonialsData = [
+  { quote: "Hassan Builders didn't just build a house; they crafted a masterpiece that our family will cherish for generations. The attention to detail is unmatched.", author: "Ahmad Raza", project: "1.5 Kanal Villa" },
+  { quote: "Their transparent process and commitment to using premium materials gave us complete peace of mind. A truly luxury construction experience from start to finish.", author: "Sarah Khalid", project: "Modern Renovation" },
+  { quote: "The architectural finesse and structural integrity of our new home exceeded all expectations. They are the premier choice in Multan for high-end builds.", author: "Dr. Usman", project: "2 Kanal Residence" },
+]
+
+function TestimonialsSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  return (
+    <section className="py-32 relative bg-[#111] overflow-hidden">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        <h2 className="text-[#D4AF37] font-mono text-sm tracking-widest uppercase mb-20 text-center">Client Voices</h2>
+        
+        <div className="max-w-5xl mx-auto relative">
+          {/* Giant Quotes Decoration */}
+          <div className="absolute -top-12 -left-8 md:-top-24 md:-left-16 text-[#D4AF37] opacity-20 text-8xl md:text-[12rem] font-serif leading-none">
+            &ldquo;
+          </div>
+          
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 text-center"
+            >
+              <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-12">
+                "{testimonialsData[currentIndex].quote}"
+              </h3>
+              <div className="flex flex-col items-center gap-2">
+                <span className="font-mono text-sm font-bold tracking-widest uppercase text-[#D4AF37]">{testimonialsData[currentIndex].author}</span>
+                <span className="font-mono text-xs tracking-widest uppercase text-gray-500">{testimonialsData[currentIndex].project}</span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Controls */}
+          <div className="flex justify-center gap-4 mt-16">
+            {testimonialsData.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#D4AF37] transition-colors duration-300"
+              >
+                <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${i === currentIndex ? 'bg-[#D4AF37]' : 'bg-white/20'}`} />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }

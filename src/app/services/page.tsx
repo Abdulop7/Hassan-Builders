@@ -21,7 +21,7 @@ export default function ServicesPage() {
     {
       title: "Design & Planning",
       description: "Comprehensive architectural and structural design services tailored to your lifestyle.",
-      image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop",
+      image: "/design-planning.webp",
       features: [
         "Architectural Design & Concept Development",
         "Structural Engineering & Calculations",
@@ -33,7 +33,7 @@ export default function ServicesPage() {
     {
       title: "Structure Construction",
       description: "Robust and enduring structural work utilizing premium quality materials.",
-      image: "https://images.unsplash.com/photo-1541888086950-ef8fd22e1189?q=80&w=2070&auto=format&fit=crop",
+      image: "/structure-construction.webp",
       features: [
         "Foundation & Excavation Work",
         "Structural Framework & Columns",
@@ -45,7 +45,7 @@ export default function ServicesPage() {
     {
       title: "Finishing & Interiors",
       description: "Exquisite final touches ensuring a complete, ready-to-move-in luxury home.",
-      image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop",
+      image: "/finishing-interior.webp",
       features: [
         "Electrical & Plumbing Installations",
         "Premium Flooring & Wall Finishes",
@@ -57,7 +57,7 @@ export default function ServicesPage() {
     {
       title: "Project Supervision",
       description: "End-to-end project management ensuring flawless execution and quality control.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356f58?q=80&w=2000&auto=format&fit=crop",
+      image: "/supervision.webp",
       features: [
         "Professional Project Management",
         "Daily Site Supervision",
@@ -76,7 +76,7 @@ export default function ServicesPage() {
         <motion.div style={{ scale: scaleImg }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#09090B] via-transparent to-[#09090B] z-10" />
           <Image 
-            src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2000&auto=format&fit=crop" 
+            src="/services-hero.webp" 
             alt="Services Hero Background" 
             fill 
             className="object-cover opacity-40"
