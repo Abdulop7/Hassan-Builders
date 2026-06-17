@@ -6,7 +6,7 @@
         "type": "Residential",
         "location": "Buch Villas, Multan",
         "area": "5,400 sq ft",
-        "description": "MR. Zia living in this stunning 4 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "description": "MR. Zia living in this stunning 1 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
         "preview": "/projects/Zia_1_Kanal/7.webp",
         "images": [
             {
@@ -42,7 +42,7 @@
         "type": "Residential",
         "location": "Buch Villas, Multan",
         "area": "6,750 sq ft",
-        "description": "MR. Hassan living in this stunning 4 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "description": "MR. Hassan living in this stunning 1.5 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
         "preview": "/projects/Hassan_1.5_Kanal/4.webp",
         "images": [
             {
@@ -95,6 +95,45 @@
             },
             {
                 "url": "/projects/4_Kanal/8.webp"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "10 Marla RESIDENTIAL",
+        "year": "2018",
+        "type": "Residential",
+        "location": "Model Town, Multan",
+        "area": "2,700 sq ft",
+        "description": "Mr. Arshad living in this stunning 10 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "preview": "/projects/Arshad_10_Marla/9.webp",
+        "images": [
+            {
+                "url": "/projects/Arshad_10_Marla/1.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/2.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/3.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/4.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/5.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/6.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/7.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/8.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/9.webp"
             }
         ]
     }
