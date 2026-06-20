@@ -145,5 +145,62 @@
                 "url": "/projects/Arshad_10_Marla/9.webp"
             }
         ]
+    },
+    {
+        "id": 5,
+        "title": "1 Kanal RESIDENTIAL",
+        "year": "2023",
+        "type": "Residential",
+        "location": "MDA Corporative Colony, Multan",
+        "area": "5,400 sq ft",
+        "description": "This stunning 1 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "preview": "/projects/Mda_1_Kanal/8.webp",
+        "images": [
+            {
+                "url": "/projects/Arshad_10_Marla/1.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/2.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/3.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/4.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/5.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/6.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/7.webp"
+            },
+            {
+                "url": "/projects/Arshad_10_Marla/8.webp"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Khair Ul Madaris Appartments",
+        "year": "2016",
+        "type": "Commercial",
+        "location": "Basti Baghbanpura, Multan",
+        "area": "N/A",
+        "description": "N/A",
+        "preview": "/projects/Khair_Ul_Madaris_Appartments/3.webp",
+        "images": [
+            {
+                "url": "/projects/Khair_Ul_Madaris_Appartments/1.webp"
+            },
+            {
+                "url": "/projects/Khair_Ul_Madaris_Appartments/2.webp"
+            },
+            {
+                "url": "/projects/Khair_Ul_Madaris_Appartments/3.webp"
+            }
+        ]
     }
 ]
