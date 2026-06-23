@@ -202,5 +202,59 @@
                 "url": "/projects/Khair_Ul_Madaris_Appartments/3.webp"
             }
         ]
+    },
+    {
+        "id": 7,
+        "title": "1 KANAL RESIDENTIAL (Plot D-4)",
+        "year": "2020",
+        "type": "Residential",
+        "location": "Royal Orchard, Multan",
+        "area": "5,400 sq ft",
+        "description": "MR. Adil living in this stunning 1 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
+        "preview": "/projects/Adil_1_Kanal/14.webp",
+        "images": [
+            {
+                "url": "/projects/Adil_1_Kanal/1.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/2.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/3.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/4.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/5.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/6.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/7.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/8.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/9.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/10.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/11.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/12.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/13.webp"
+            },
+            {
+                "url": "/projects/Adil_1_Kanal/14.webp"
+            }
+        ]
     }
 ]
