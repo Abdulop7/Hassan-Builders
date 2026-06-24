@@ -42,6 +42,7 @@
         "type": "Residential",
         "location": "Buch Villas, Multan",
         "area": "6,750 sq ft",
+        "featured": true,
         "description": "MR. Hassan living in this stunning 1.5 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
         "preview": "/projects/Hassan_1.5_Kanal/4.webp",
         "images": [
@@ -69,6 +70,7 @@
         "type": "Residential",
         "location": "CANTT, Multan",
         "area": "21,600 sq ft",
+        "featured": true,
         "description": "Madam Rahat living in this stunning 4 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
         "preview": "/projects/4_Kanal/8.webp",
         "images": [
@@ -105,6 +107,7 @@
         "type": "Residential",
         "location": "Model Town, Multan",
         "area": "2,700 sq ft",
+        "featured": true,
         "description": "Mr. Arshad living in this stunning 10 Kanal home in Multan, offering modern design, spacious interiors, and premium amenities.",
         "preview": "/projects/Arshad_10_Marla/9.webp",
         "images": [
@@ -190,6 +193,7 @@
         "location": "Basti Baghbanpura, Multan",
         "area": "N/A",
         "description": "N/A",
+        "featured": true,
         "preview": "/projects/Khair_Ul_Madaris_Appartments/3.webp",
         "images": [
             {

@@ -243,7 +243,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
-            {projectsData.map((project, i) => (
+            {projectsData.filter(project => project.featured).map((project, i) => (
               <ProjectCard key={project.id} project={project} index={i} />
             ))}
           </div>
