@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Hassan Builders | Construction Company in Multan, Punjab, Pakistan',
-  description: 'Get in touch with Hassan Builders, a trusted construction company in Multan, Punjab, Pakistan. Contact us for home building, house design, renovations, and turnkey construction services from expert home builders and house designers.',
+  title: 'Contact | Construction, Architecture & Home Building Solutions in Multan, Pakistan | Hassan Builders',
+  description:
+    'Get in touch with Hassan Builders, your trusted construction company and architecture firm based in Multan, Pakistan. Whether you’re planning a new home, commercial building, renovation, or turnkey construction project, our experienced team is ready to bring your vision to life.',
 }
 
 export default function ContactLayout({

@@ -8,7 +8,7 @@ import CustomCursor from '@/components/CustomCursor'
 import Loader from '@/components/Loader'
 import { Analytics } from "@vercel/analytics/next"
 
-const spaceGrotesk = Space_Grotesk({ 
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
 })
@@ -21,9 +21,9 @@ const chivoMono = Chivo_Mono({
 export const metadata: Metadata = {
   title: {
     template: '%s | Hassan Builders',
-    default: 'Hassan Builders – Construction Company in Multan | Home Builders & House Designers',
+    default: 'Hassan Builders | Top Construction Company & House Designers in Multan, Pakistan',
   },
-  description: 'Looking for home builders or house designers near you? Hassan Builders is a leading construction company in Multan, Punjab, Pakistan, offering residential construction, renovations, architectural design, turnkey building solutions, and project management services.',
+  description: 'Hassan Builders in Multan, Punjab, Pakistan – expert construction company, architects, home builders & house designers. Quality construction, renovations & turnkey building solutions near you.',
   keywords: ['consolidated construction company', 'home builders', 'renovations', 'house designers near me', 'construction company in multan'],
 }
 
